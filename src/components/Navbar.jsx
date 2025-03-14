@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchUserProfile } from "../api/axiosInstance";
@@ -37,40 +36,77 @@ export default function Navbar() {
         sessionStorage.removeItem("token");
         sessionStorage.removeItem("userId");
         setUser(null);
-        navigate("/logout", { replace: true }); // Navigate to /logout
+        navigate("/logout", { replace: true });
     };
 
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
-                <div className="d-flex align-items-center">
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav"
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav me-auto">
+                {/* Hamburger button to toggle offcanvas on small screens */}
+                <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#navbarOffcanvas"
+                    aria-controls="navbarOffcanvas"
+                    aria-label="Toggle navigation"
+                >
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+
+                {/* Offcanvas for navigation links */}
+                <div
+                    className="offcanvas offcanvas-start"
+                    tabIndex="-1"
+                    id="navbarOffcanvas"
+                    aria-labelledby="navbarOffcanvasLabel"
+                >
+                    <div className="offcanvas-header">
+                        <h5 className="offcanvas-title" id="navbarOffcanvasLabel">
+                            Menu
+                        </h5>
+                        <button
+                            type="button"
+                            className="btn-close"
+                            data-bs-dismiss="offcanvas"
+                            aria-label="Close"
+                        ></button>
+                    </div>
+                    <div className="offcanvas-body">
+                        <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/home">
+                                <Link
+                                    className="nav-link"
+                                    to="/home"
+                                    data-bs-dismiss="offcanvas"
+                                >
                                     Home
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/trending">
+                                <Link
+                                    className="nav-link"
+                                    to="/trending"
+                                    data-bs-dismiss="offcanvas"
+                                >
                                     Trending
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/recent">
+                                <Link
+                                    className="nav-link"
+                                    to="/recent"
+                                    data-bs-dismiss="offcanvas"
+                                >
                                     Recent
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/about">
+                                <Link
+                                    className="nav-link"
+                                    to="/about"
+                                    data-bs-dismiss="offcanvas"
+                                >
                                     About Us
                                 </Link>
                             </li>
@@ -78,7 +114,8 @@ export default function Navbar() {
                     </div>
                 </div>
 
-                <Link className="navbar-brand mx-auto" to="/">
+                {/* Navbar brand (logo) always centered */}
+                <Link className="navbar-brand mx-auto d-block" to="/">
                     <img
                         src="/recipe-logo.jpg"
                         className="recipe-logo-settings"
@@ -86,7 +123,8 @@ export default function Navbar() {
                     />
                 </Link>
 
-                <div className="d-flex align-items-center">
+                {/* Right-side elements */}
+                <div className="d-flex align-items-center ms-auto">
                     <i
                         className="fas fa-search search-icon me-3"
                         onClick={() => navigate("/search")}

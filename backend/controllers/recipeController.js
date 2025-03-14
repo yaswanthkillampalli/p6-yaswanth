@@ -266,7 +266,6 @@ exports.shareRecipe = async (req, res) => {
         const recipe = await Recipe.findById(id);
         if (!recipe) return res.status(404).json({ message: "Recipe not found" });
 
-        // Generate a shareable link (adjust based on your frontend URL)
         const shareLink = `https://recipe-frontend.onrender.com/recipe/${id}`;
         res.status(200).json({ shareLink });
     } catch (error) {
@@ -279,21 +278,17 @@ exports.shareRecipe = async (req, res) => {
 exports.isUserLiked = async (req, res) => {
     try {
         const { recipeId } = req.params;
-        console.log("Testing isUserLiked - recipeId:", recipeId);
         const userId = req.user.id; // From middleware
-        console.log("userId:", userId);
+        
 
         const recipe = await Recipe.findById(recipeId);
         if (!recipe) {
-            console.log("Recipe not found for ID:", recipeId);
             return res.status(404).json({ message: "Recipe not found" });
         }
-        console.log("Recipe:", recipe);
-
+    
         const hasLiked = recipe.likedBy && Array.isArray(recipe.likedBy)
             ? recipe.likedBy.some(id => id && id.toString() === userId.toString())
             : false;
-        console.log("hasLiked:", hasLiked);
 
         return res.status(200).json({ isLiked: hasLiked });
     } catch (error) {
@@ -305,21 +300,17 @@ exports.isUserLiked = async (req, res) => {
 exports.isUserSaved = async (req, res) => {
     try {
         const { recipeId } = req.params;
-        console.log("Testing isUserSaved - recipeId:", recipeId);
         const userId = req.user.id;
-        console.log("userId:", userId);
 
         const recipe = await Recipe.findById(recipeId);
         if (!recipe) {
             console.log("Recipe not found for ID:", recipeId);
             return res.status(404).json({ message: "Recipe not found" });
         }
-        console.log("Recipe:", recipe);
 
         const hasSaved = recipe.savedBy && Array.isArray(recipe.savedBy)
             ? recipe.savedBy.some(id => id && id.toString() === userId.toString())
             : false;
-        console.log("hasSaved:", hasSaved);
 
         return res.status(200).json({ isSaved: hasSaved });
     } catch (error) {

@@ -12,7 +12,7 @@ export default function Filter({ onFilterApply, offcanvasRef }) {
 
     return (
         <div
-            className="offcanvas offcanvas-start"
+            className="offcanvas offcanvas-end"
             tabIndex="-1"
             id="filterOffcanvas"
             ref={offcanvasRef} // Allow Home.jsx to control it
