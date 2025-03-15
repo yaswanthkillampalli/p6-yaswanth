@@ -1,10 +1,9 @@
-// src/pages/NewPost.jsx
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { createRecipe, fetchRecipeById, editRecipe } from "../api/axiosInstance";
+import API from "../api/axiosInstance"; // For DELETE request
 import "../styles.css";
-import API from "../api/axiosInstance";
 
 export default function NewPost() {
     const navigate = useNavigate();
@@ -21,7 +20,7 @@ export default function NewPost() {
         difficulty: "Medium",
         recipeType: "",
         image: "",
-        status: "Published", // Default status for new recipes
+        status: "Published",
     });
     const [message, setMessage] = useState("");
     const isLoggedIn = !!sessionStorage.getItem("token");
@@ -46,7 +45,7 @@ export default function NewPost() {
                         difficulty: data.difficulty || "Medium",
                         recipeType: data.recipeType || "",
                         image: data.image || "",
-                        status: data.status || "Published", // Preserve existing status
+                        status: data.status || "Published",
                     });
                 } catch (error) {
                     console.error("Error fetching recipe:", error);
@@ -118,8 +117,7 @@ export default function NewPost() {
             } else {
                 const response = await createRecipe(recipeData);
                 console.log("✅ Recipe created successfully:", response);
-                // Fix: Access recipe._id instead of data._id
-                const newRecipeId = response.recipe._id; // Adjust based on actual response structure
+                const newRecipeId = response.recipe._id; // Adjust based on response structure
                 await API.post("/users/publish", { recipeId: newRecipeId });
                 setMessage("Recipe added and published successfully!");
             }
@@ -128,6 +126,22 @@ export default function NewPost() {
             console.error("❌ Error:", error.response?.data || error.message);
             setMessage(
                 error.response?.data?.message || `Failed to ${isEditing ? "update" : "add"} recipe.`
+            );
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!window.confirm("Are you sure you want to delete this recipe?")) return;
+
+        try {
+            await API.delete(`/recipes/${recipeId}`);
+            console.log("✅ Recipe deleted successfully");
+            setMessage("Recipe deleted successfully!");
+            setTimeout(() => navigate("/published"), 1500);
+        } catch (error) {
+            console.error("❌ Error deleting recipe:", error.response?.data || error.message);
+            setMessage(
+                error.response?.data?.message || "Failed to delete recipe."
             );
         }
     };
@@ -169,7 +183,7 @@ export default function NewPost() {
                                 value={ingredient}
                                 onChange={(e) => handleIngredientChange(index, e.target.value)}
                                 placeholder={`Ingredient ${index + 1}`}
-                                required={index === 0} // Only the first ingredient is required
+                                required={index === 0}
                             />
                         ))}
                         <button type="button" className="add-button" onClick={addIngredient}>
@@ -185,7 +199,7 @@ export default function NewPost() {
                                 value={step}
                                 onChange={(e) => handleInstructionChange(index, e.target.value)}
                                 placeholder={`Step ${index + 1}`}
-                                required={index === 0} // Only the first instruction is required
+                                required={index === 0}
                             />
                         ))}
                         <button type="button" className="add-button" onClick={addInstruction}>
@@ -274,9 +288,25 @@ export default function NewPost() {
                             <option value="Published">Published</option>
                         </select>
                     </div>
-                    <button type="submit" className="submit-button">
-                        {isEditing ? "Update Recipe" : "Publish"}
-                    </button>
+                    {/* Button Section */}
+                    {isEditing ? (
+                        <div className="d-flex justify-content-between">
+                            <button type="submit" className="btn btn-primary">
+                                Update Recipe
+                            </button>
+                            <button 
+                                type="button" 
+                                className="btn btn-danger" 
+                                onClick={handleDelete}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    ) : (
+                        <button type="submit" className="btn btn-primary w-100">
+                            Publish
+                        </button>
+                    )}
                     {message && (
                         <p className={message.includes("success") ? "success-message" : "error-message"}>
                             {message}

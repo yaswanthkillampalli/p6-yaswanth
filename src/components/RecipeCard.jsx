@@ -222,19 +222,20 @@ export default function RecipeCard({ recipe, onUpdate }) {
                     )}
                 </div>
             </div>
-
-            <Link
-                to={`/recipe/${recipe._id}`}
-                className="btn btn-sm btn-outline-success mt-2 w-100"
-                onClick={handleViewRecipe}
-            >
-                View Recipe
-            </Link>
-            {isLoggedIn && currentUserId === recipe.author?._id?.toString() && (
-                <Link to={`/edit/${recipe._id}`} className="btn btn-sm btn-outline-primary mt-2 w-100">
-                    Edit Recipe
+            <div className = "d-flex">
+                <Link
+                    to={`/recipe/${recipe._id}`}
+                    className="btn btn-sm btn-outline-success custom-seetings-view-edit mt-2 w-100"
+                    onClick={handleViewRecipe}
+                >
+                    View Recipe
                 </Link>
-            )}
+                {isLoggedIn && currentUserId === recipe.author?._id?.toString() && (
+                    <Link to={`/edit/${recipe._id}`} className="btn btn-sm btn-outline-primary custom-seetings-view-edit mt-2 w-100">
+                        Edit Recipe
+                    </Link>
+                )}
+                </div>
         </div>
     );
 }

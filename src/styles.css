@@ -24,7 +24,9 @@
     border-radius: 50%;
     object-fit: cover;
 }
-
+.custom-seetings-view-edit {
+    border-radius:20px;
+}
 .recipe-author-name {
     font-size: 0.9rem;
     font-weight: 600;
