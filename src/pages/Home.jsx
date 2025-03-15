@@ -89,10 +89,10 @@ export default function Home() {
                         data-bs-target="#filterOffcanvas"
                         title="Filters"
                     >
-                    🔍
+                    <i className="fa-solid fa-filter"></i>
                     </button>
                     <Link to="/newpost" className="floating-btn new-post-btn" title="New Recipe">
-                        ➕
+                        <i className="fa-solid fa-plus"></i>
                     </Link>
                 </div>
             )}

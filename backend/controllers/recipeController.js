@@ -155,45 +155,45 @@ exports.deleteRecipe = async (req, res) => {
     try {
         // Step 1: Extract and log the recipe ID from the request
         const { id } = req.params;
-        console.log("🔍 Attempting to delete recipe with ID:", id);
+        // console.log("🔍 Attempting to delete recipe with ID:", id);
 
         // Step 2: Log the authenticated user details
-        console.log("👤 Authenticated user:", {
-            id: req.user.id.toString(), // Ensure string for clarity
-            username: req.user.username,
-            email: req.user.email
-        });
+        // console.log("👤 Authenticated user:", {
+        //     id: req.user.id.toString(), // Ensure string for clarity
+        //     username: req.user.username,
+        //     email: req.user.email
+        // });
 
         // Step 3: Find the recipe in the database
         const recipe = await Recipe.findById(id);
         if (!recipe) {
-            console.log("❌ Recipe not found in database");
+            // console.log("❌ Recipe not found in database");
             return res.status(404).json({ message: "Recipe not found" });
         }
-        console.log("✅ Recipe found:", {
-            title: recipe.title,
-            author: recipe.author.toString()
-        });
+        // console.log("✅ Recipe found:", {
+        //     title: recipe.title,
+        //     author: recipe.author.toString()
+        // });
 
         // Step 4: Compare ownership with explicit type conversion
         const recipeAuthor = recipe.author.toString();
         const userId = req.user.id.toString();
         const isOwner = recipeAuthor === userId;
-        console.log("🖌️ Ownership check:", {
-            recipeAuthor: recipeAuthor,
-            userId: userId,
-            isOwner: isOwner
-        });
+        // console.log("🖌️ Ownership check:", {
+        //     recipeAuthor: recipeAuthor,
+        //     userId: userId,
+        //     isOwner: isOwner
+        // });
 
         if (!isOwner) {
-            console.log("🚫 User is not the owner, denying deletion");
+            // console.log("🚫 User is not the owner, denying deletion");
             return res.status(403).json({ message: "Only the owner can delete this" });
         }
 
         // Step 5: Delete the recipe
-        console.log("🗑️ User is owner, proceeding with deletion");
+        // console.log("🗑️ User is owner, proceeding with deletion");
         await recipe.deleteOne();
-        console.log("✅ Recipe successfully deleted");
+        // console.log("✅ Recipe successfully deleted");
 
         // Step 6: Send success response
         res.status(200).json({ message: "Recipe deleted" });
@@ -301,7 +301,7 @@ exports.shareRecipe = async (req, res) => {
         const recipe = await Recipe.findById(id);
         if (!recipe) return res.status(404).json({ message: "Recipe not found" });
 
-        const shareLink = `https://recipe-frontend.onrender.com/recipe/${id}`;
+        const shareLink = `http://localhost:5173/recipe/${recipe._id}`;
         res.status(200).json({ shareLink });
     } catch (error) {
         console.error("Error sharing recipe:", error);

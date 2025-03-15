@@ -83,10 +83,10 @@ export default function Trending() {
                         data-bs-toggle="offcanvas"
                         data-bs-target="#filterOffcanvas"
                     >
-                        🔍
+                        <i className="fa-solid fa-filter"></i>
                     </button>
                     <Link to="/newpost" className="floating-btn new-post-btn">
-                        ➕
+                    <i className="fa-solid fa-plus"></i>
                     </Link>
                 </div>
             )}

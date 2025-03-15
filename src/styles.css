@@ -17,7 +17,14 @@
     justify-content: space-between;
     align-items: center;
 }
-
+.custom-login-button {
+    background-color: white;
+    color: black;
+}
+.custom-login-button:hover {
+    background-color: white;
+    color: black;
+}
 .recipe-author-img {
     width: 40px;
     height: 40px;
@@ -861,7 +868,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: #007bff;
+    background-color: green;
     color: white;
     font-size: 24px;
     display: flex;
@@ -874,12 +881,12 @@
 
 /* Filter button (above New Post) */
 .filter-btn {
-    background-color: #6c757d; /* Grey to differentiate */
+    background-color: green; /* Grey to differentiate */
 }
 
 /* New Post button (below Filter) */
 .new-post-btn {
-    background-color: #007bff; /* Keep original blue */
+    background-color: green; /* Keep original blue */
 }
 /* src/styles.css */
 .recipe-page {
@@ -1175,8 +1182,8 @@
 }
 
 .follow-btn.following {
-    background-color: #ccc;
-    color: #333;
+    background-color: green;
+    color: white;
 }
 
 .follow-btn.following:hover {

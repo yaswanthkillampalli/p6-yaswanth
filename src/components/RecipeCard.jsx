@@ -1,7 +1,7 @@
 // src/components/RecipeCard.jsx
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
+import { 
     likeRecipe,
     unlikeRecipe,
     saveRecipe,

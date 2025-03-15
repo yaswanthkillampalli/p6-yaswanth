@@ -299,7 +299,7 @@ export const saveDraft = async (recipeData) => {
 
 // src/api/axiosInstance.js
 export const shareRecipe = async (recipeId) => {
-    const response = await axiosInstance.post(`/recipes/${recipeId}/share`);
+    const response = await API.post(`/recipes/${recipeId}/share`);
     return response.data;
 };
 export const searchRecipes = async (query) => {

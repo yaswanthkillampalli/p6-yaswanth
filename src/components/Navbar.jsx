@@ -139,7 +139,7 @@ export default function Navbar() {
                         <ProfilePopupMenu user={user} onLogout={handleLogout} />
                     ) : (
                         <span
-                            className="btn btn-outline-success"
+                            className="btn btn-outline-success custom-login-button"
                             onClick={() => handleNavClick("/login")}
                         >
                             Login
