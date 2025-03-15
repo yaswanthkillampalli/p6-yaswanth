@@ -1,6 +1,6 @@
 // src/App.jsx
 import { useState } from "react"; // Removed useEffect import
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Trending from "./pages/Trending";
 import Recent from "./pages/Recent";
@@ -22,7 +22,7 @@ export default function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(!!sessionStorage.getItem("token")); // Initial state only
 
     return (
-        <Router>
+        <BrowserRouter>
             <Navbar isLoggedIn={isLoggedIn} />
             <Routes>
                 {/* Public Routes */}
@@ -63,6 +63,6 @@ export default function App() {
                 {/* 404 Page */}
                 <Route path="*" element={<h2 className="container text-center mt-5">404 - Page Not Found</h2>} />
             </Routes>
-        </Router>
+        </BrowserRouter>
     );
 }

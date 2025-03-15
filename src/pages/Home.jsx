@@ -62,16 +62,7 @@ export default function Home() {
             <main className="recipe-feed">
                 <div className="container">
                     <div className="d-flex justify-content-between align-items-center mb-4">
-                        <h2 className="feed-title">🍽️ Latest Recipes</h2>
-                        {isLoggedIn && (
-                            <button
-                                className="btn btn-outline-primary filter-toggle-btn"
-                                data-bs-toggle="offcanvas"
-                                data-bs-target="#filterOffcanvas"
-                            >
-                                <i className="fa-solid fa-filter"></i> Filters
-                            </button>
-                        )}
+                        <h2 className="feed-title pt-5">🍽️ Latest Recipes</h2>
                     </div>
 
                     <Filter onFilterApply={applyFilters} offcanvasRef={offcanvasRef} />

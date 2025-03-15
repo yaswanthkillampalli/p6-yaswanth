@@ -39,10 +39,13 @@ export default function Navbar() {
         navigate("/logout", { replace: true });
     };
 
+    const handleNavClick = (path) => {
+        navigate(path);
+    };
+
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
-                {/* Hamburger button to toggle offcanvas on small screens */}
                 <button
                     className="navbar-toggler"
                     type="button"
@@ -54,7 +57,6 @@ export default function Navbar() {
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                {/* Offcanvas for navigation links */}
                 <div
                     className="offcanvas offcanvas-start"
                     tabIndex="-1"
@@ -75,55 +77,56 @@ export default function Navbar() {
                     <div className="offcanvas-body">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link
+                                <span
                                     className="nav-link"
-                                    to="/home"
+                                    onClick={() => handleNavClick("/home")}
                                     data-bs-dismiss="offcanvas"
                                 >
                                     Home
-                                </Link>
+                                </span>
                             </li>
                             <li className="nav-item">
-                                <Link
+                                <span
                                     className="nav-link"
-                                    to="/trending"
+                                    onClick={() => handleNavClick("/trending")}
                                     data-bs-dismiss="offcanvas"
                                 >
                                     Trending
-                                </Link>
+                                </span>
                             </li>
                             <li className="nav-item">
-                                <Link
+                                <span
                                     className="nav-link"
-                                    to="/recent"
+                                    onClick={() => handleNavClick("/recent")}
                                     data-bs-dismiss="offcanvas"
                                 >
                                     Recent
-                                </Link>
+                                </span>
                             </li>
                             <li className="nav-item">
-                                <Link
+                                <span
                                     className="nav-link"
-                                    to="/about"
+                                    onClick={() => handleNavClick("/about")}
                                     data-bs-dismiss="offcanvas"
                                 >
                                     About Us
-                                </Link>
+                                </span>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                {/* Navbar brand (logo) always centered */}
-                <Link className="navbar-brand mx-auto d-block" to="/">
+                <span
+                    className="navbar-brand mx-auto d-block"
+                    onClick={() => handleNavClick("/")}
+                >
                     <img
                         src="/recipe-logo.jpg"
                         className="recipe-logo-settings"
                         alt="Recipe Logo"
                     />
-                </Link>
+                </span>
 
-                {/* Right-side elements */}
                 <div className="d-flex align-items-center ms-auto">
                     <i
                         className="fas fa-search search-icon me-3"
@@ -135,9 +138,12 @@ export default function Navbar() {
                     ) : isLoggedIn && user ? (
                         <ProfilePopupMenu user={user} onLogout={handleLogout} />
                     ) : (
-                        <Link className="btn btn-outline-success" to="/login">
+                        <span
+                            className="btn btn-outline-success"
+                            onClick={() => handleNavClick("/login")}
+                        >
                             Login
-                        </Link>
+                        </span>
                     )}
                 </div>
             </div>

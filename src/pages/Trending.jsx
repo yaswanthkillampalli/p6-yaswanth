@@ -61,7 +61,7 @@ export default function Trending() {
             <Navbar isLoggedIn={isLoggedIn} />
             <main className="recipe-feed">
                 <div className="container">
-                    <h1 className="mb-4">🔥 Trending Recipes</h1>
+                    <h1 className="mb-4 pt-5">🔥 Trending Recipes</h1>
                     <Filter onFilterApply={applyFilters} offcanvasRef={offcanvasRef} />
                     <div className="row g-4">
                         {filteredRecipes.length === 0 ? (

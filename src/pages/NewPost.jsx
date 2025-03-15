@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { createRecipe, fetchRecipeById, editRecipe } from "../api/axiosInstance";
 import "../styles.css";
+import API from "../api/axiosInstance";
 
 export default function NewPost() {
     const navigate = useNavigate();
@@ -83,7 +84,7 @@ export default function NewPost() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         const userId = sessionStorage.getItem("userId");
         if (!userId) {
             console.error("⚠️ User not logged in!");
@@ -91,7 +92,7 @@ export default function NewPost() {
             navigate("/login");
             return;
         }
-
+    
         const recipeData = {
             title: recipe.title.trim(),
             description: recipe.description.trim(),
@@ -104,11 +105,11 @@ export default function NewPost() {
             recipeType: recipe.recipeType,
             image: recipe.image.trim(),
             author: userId,
-            status: recipe.status, // Use the form's status value
+            status: recipe.status,
         };
-
+    
         console.log("✅ Final Recipe Data:", recipeData);
-
+    
         try {
             if (isEditing) {
                 const response = await editRecipe(recipeId, recipeData);
@@ -117,11 +118,12 @@ export default function NewPost() {
             } else {
                 const response = await createRecipe(recipeData);
                 console.log("✅ Recipe created successfully:", response);
-                // Optionally publish the recipe (if not already handled by createRecipe)
-                await API.post("/users/publish", { recipeId: response.data._id });
+                // Fix: Access recipe._id instead of data._id
+                const newRecipeId = response.recipe._id; // Adjust based on actual response structure
+                await API.post("/users/publish", { recipeId: newRecipeId });
                 setMessage("Recipe added and published successfully!");
             }
-            setTimeout(() => navigate("/published"), 2000); // Redirect to Published page
+            setTimeout(() => navigate("/published"), 2000);
         } catch (error) {
             console.error("❌ Error:", error.response?.data || error.message);
             setMessage(
