@@ -47,10 +47,17 @@ export default function Profile() {
 
     const handleUpdate = async () => {
         try {
-            // Send only the fields that have changed
+            // Send only editable fields that have changed
             const updatedFields = {};
             for (const key in updatedUser) {
-                if (updatedUser[key] !== user[key]) {
+                if (
+                    updatedUser[key] !== user[key] &&
+                    key !== "likedRecipes" &&
+                    key !== "savedRecipes" &&
+                    key !== "publishedRecipes" &&
+                    key !== "followers" &&
+                    key !== "following"
+                ) {
                     updatedFields[key] = updatedUser[key];
                 }
             }
@@ -59,19 +66,29 @@ export default function Profile() {
                 setEditing(false);
                 return;
             }
-
-            const response = await updateUserProfile(updatedFields); // Expect updated user data
-            setUser(response); // Update user state with the response from the backend
-            setUpdatedUser(response); // Sync updatedUser with the new data
+    
+            const response = await updateUserProfile(updatedFields);
+            // Merge response with current user to preserve populated fields
+            const updatedUserData = {
+                ...user,
+                ...response,
+                likedRecipes: user.likedRecipes,
+                savedRecipes: user.savedRecipes,
+                publishedRecipes: user.publishedRecipes,
+                followers: user.followers,
+                following: user.following,
+            };
+            setUser(updatedUserData);
+            setUpdatedUser(updatedUserData);
             setEditing(false);
             setMessage("Profile updated successfully!");
-            setTimeout(() => setMessage(""), 3000); // Clear message after 3 seconds
+            setTimeout(() => setMessage(""), 3000);
         } catch (error) {
-            console.error("Error updating profile:", error);
+            console.error("Error updating profile:", error, error.response?.data);
             setMessage(
                 error.response?.data?.message || "Failed to update profile. Please try again."
             );
-            setTimeout(() => setMessage(""), 3000); // Clear message after 3 seconds
+            setTimeout(() => setMessage(""), 3000);
         }
     };
 

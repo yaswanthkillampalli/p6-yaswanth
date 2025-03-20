@@ -69,9 +69,21 @@ exports.getUserProfile = async (req, res) => {
         const user = await User.findById(req.user.id)
             .populate("followers", "username profileImage")
             .populate("following", "username profileImage")
-            .populate("publishedRecipes", "title image cookingTime servings difficulty recipeType author likes likedBy savedBy")
-            .populate("savedRecipes", "title image cookingTime servings difficulty recipeType author RESOURCElikes likedBy savedBy")
-            .populate("likedRecipes", "title image cookingTime servings difficulty recipeType author likes likedBy savedBy")
+            .populate({
+                path: "publishedRecipes",
+                populate: { path: "author", select: "username profileImage" },
+                select: "title image cookingTime servings difficulty recipeType author likes likedBy savedBy",
+            })
+            .populate({
+                path: "savedRecipes",
+                populate: { path: "author", select: "username profileImage" },
+                select: "title image cookingTime servings difficulty recipeType author likes likedBy savedBy",
+            })
+            .populate({
+                path: "likedRecipes",
+                populate: { path: "author", select: "username profileImage" },
+                select: "title image cookingTime servings difficulty recipeType author likes likedBy savedBy",
+            })
             .select("-password");
         if (!user) return res.status(404).json({ message: "User not found" });
         res.status(200).json(user);
